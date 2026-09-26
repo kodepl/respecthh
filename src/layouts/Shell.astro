@@ -1,0 +1,47 @@
+---
+import "../styles/global.css";
+const { title, description } = Astro.props;
+const path = Astro.url.pathname;
+---
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="canonical" href={`https://www.respecthh.pl${path}`} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Sans:wght@400;560&display=swap" rel="stylesheet" />
+    <script is:inline>if(location.hostname==="respecthh.pl")location.replace(location.href.replace("://","://www."));</script>
+  </head>
+  <body class="bg-[#0e0e0e] text-[#f3ead7] font-sans">
+    <header class="border-b border-[#f2c14e]/40">
+      <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
+        <a href="/" class="font-display text-4xl tracking-wide text-[#f2c14e]">RESPECT</a>
+        <nav class="flex gap-5 text-sm uppercase tracking-widest">
+          <a href="/sciezki/">Ścieżki</a>
+          <a href="/#play">Play</a>
+          <a href="/o-nas/">Redakcja</a>
+        </nav>
+      </div>
+    </header>
+    <slot />
+    
+    <footer class="mt-16 border-t border-[#f3ead7]/20">
+      <div class="mx-auto flex max-w-6xl flex-wrap items-end justify-between gap-6 px-5 py-10">
+        <div>
+          <p class="font-display text-3xl">RESPECT</p>
+          <p class="mt-2 max-w-sm text-sm opacity-70">Rap lat 90, mury, kasety. Amerykańskie klasyki bez wykładu z encyklopedii.</p>
+        </div>
+        <div class="flex gap-5 text-sm">
+          <a href="/sciezki/">Archiwum</a>
+          <a href="/o-nas/">O nas</a>
+          <a href="/kontakt/">Kontakt</a>
+          <a href="/polityka-prywatnosci/">Prywatność</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
