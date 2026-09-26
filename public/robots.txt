@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
+Sitemap: https://www.respecthh.pl/sitemap.xml
 Sitemap: https://www.respecthh.pl/sitemap-index.xml
