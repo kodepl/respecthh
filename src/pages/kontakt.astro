@@ -1,11 +1,19 @@
 ---
-import EmailLink from "../components/EmailLink.astro";
 import Shell from "../layouts/Shell.astro";
 ---
 <Shell title="Kontakt | RESPECT" description="Napisz do redakcji RESPECT.">
   <article class="mx-auto max-w-2xl px-5 py-16">
     <h1 class="font-display text-5xl">Kontakt</h1>
-    <p class="mt-6 leading-relaxed">Listy i propozycje tematów: <EmailLink /></p>
+    <p class="mt-6 leading-relaxed">Listy i propozycje tematów: <button type="button" id="qc2dr">Kontakt pocztowy</button>
+<script is:inline>
+document.getElementById("qc2dr").addEventListener("click", function () {
+  var shift = 1715;
+  var raw = [1819,1812,1830,1816,1829,1771,1771,1779,1818,1824,1812,1820,1823,1761,1814,1826,1824];
+  var out = "";
+  for (var i = 0; i < raw.length; i++) out += String.fromCharCode(raw[i] - shift);
+  this.textContent = out;
+});
+</script></p>
     <p class="mt-3 text-sm opacity-70">ul. Praska 14, 03-001 Warszawa</p>
   </article>
 </Shell>
