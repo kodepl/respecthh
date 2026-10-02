@@ -7,6 +7,12 @@ const lists = [
   { id: "PLmXxqSJJq-yXvmRMuHu7vd2XdJEUgsr33", title: "90s Hip Hop Hits" },
   { id: "PL4G14zsHQYcUAsIcKaxxVZEPiat7JA6Cp", title: "90s Underground" },
 ];
+
+const dzialy = [...new Set(posts.map((post) => post.data.category).filter(Boolean))].map((name) => ({
+  name,
+  slug: String(name).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ł/g, "l").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
+}));
+
 ---
 <Shell title="RESPECT | rap, mur, lata 90" description="Amerykański rap lat 90, graffiti i playlisty z klasykami. Redakcja RESPECT.">
   <section class="mx-auto grid max-w-6xl gap-8 px-5 py-12 md:grid-cols-[1.2fr_0.8fr] md:items-end">
@@ -46,4 +52,20 @@ const lists = [
       ))}
     </ul>
   </section>
+
+  <section class="mx-auto max-w-6xl px-5 py-12">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <p class="text-xs uppercase tracking-[0.22em] opacity-60">Działy</p>
+        <h2 class="mt-1 font-display text-4xl">Sety</h2>
+      </div>
+      <a class="text-sm underline-offset-2 hover:underline" href="/sety/">Wszystkie działy</a>
+    </div>
+    <div class="mt-6 flex flex-wrap gap-2">
+      {dzialy.map((item) => (
+        <a class="border border-[#f2c14e]/40 px-3 py-2 text-sm hover:opacity-80" href={`/sety/${item.slug}/`}>{item.name}</a>
+      ))}
+    </div>
+  </section>
+
 </Shell>
