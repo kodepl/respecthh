@@ -1,6 +1,6 @@
 ---
 title: "Boom bap lat 90: Co słychać w bicie, zanim wejdzie zwrotka"
-description: "Wnikliwy przegląd boom bap z lat 90 i jego brzmienia, zanim usłyszymy pierwsze wersy."
+description: "Boom bap lat 90: kick, snare, sample i bas, zanim wejdzie zwrotka."
 pubDate: "2026-09-24"
 author: "Igor Walczak"
 authorBio: "Słucha rapu z lat 90 i ogląda mury. Pisze o bicie, okładce i ubraniu, które było uniformem, zanim stało się stylem."

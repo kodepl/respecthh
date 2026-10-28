@@ -1,0 +1,100 @@
+---
+import Shell from "../layouts/Shell.astro";
+
+const questions = [
+  {
+    q: "Zanim wejdzie zwrotka, ucho najczęściej łapie:",
+    options: ["Melodię syntezatora z 2010", "Kick i snare ustawione w rytm", "Wyłącznie tekst bez bitu"],
+    answer: 1,
+    note: "W boom bapie to właśnie perkusja i sample budują napięcie przed głosem.",
+  },
+  {
+    q: "Sample w rapie lat 90. to zwykle:",
+    options: ["Fragment starszego nagrania wpleciony w nowy utwór", "Zawsze oryginalna orkiestra w studio", "Losowy dźwięk telefonu"],
+    answer: 0,
+    note: "Producenci wycinają pętle z płyt, breaków i soulowych nagrań.",
+  },
+  {
+    q: "Throw-up na murze to:",
+    options: ["Pełny mural z portretem", "Szybkie litery z konturem i wypełnieniem", "Tylko jeden cienki tag ołówkiem"],
+    answer: 1,
+    note: "Throw-up siedzi między tagiem a rozbudowanym piece.",
+  },
+  {
+    q: "Cypher to przede wszystkim:",
+    options: ["Krąg MC-ów rzucających zwrotki po kolei", "Nazwa lampy ulicznej", "Typ kasety VHS"],
+    answer: 0,
+    note: "Forma spotkania i wymiany, nie tylko ścieżka na albumie.",
+  },
+];
+---
+<Shell
+  title="Co słychać w bicie | RESPECT"
+  description="Krótki quiz RESPECT: kick, snare, sample, throw-up i cypher. Trening ucha, nie egzamin."
+>
+  <section class="mx-auto max-w-3xl px-5 py-14">
+    <p class="text-xs uppercase tracking-[0.22em] opacity-60">Narzędzie</p>
+    <h1 class="mt-2 font-display text-5xl text-[var(--gold)]">Co słychać w bicie</h1>
+    <p class="mt-4 max-w-xl text-lg leading-relaxed opacity-80">
+      Cztery pytania. Bez punktacji na medal. Chodzi o to, żeby nazwać rzeczy, które i tak słyszysz.
+    </p>
+    <div id="quiz" class="mt-10 space-y-8" data-quiz={JSON.stringify(questions.map((item) => item.answer))}>
+      {questions.map((item, qi) => (
+        <fieldset class="border border-[var(--line-soft)] p-5" data-qi={qi}>
+          <legend class="px-1 font-display text-2xl text-[var(--gold)]">{qi + 1}. {item.q}</legend>
+          <div class="mt-4 space-y-2">
+            {item.options.map((opt, oi) => (
+              <button type="button" class="quiz-option block w-full border border-[var(--line-soft)] px-4 py-3 text-left text-sm" data-oi={oi} aria-pressed="false">
+                {opt}
+              </button>
+            ))}
+          </div>
+          <p class="note mt-3 hidden text-sm text-[var(--muted)]" data-note>{item.note}</p>
+        </fieldset>
+      ))}
+    </div>
+    <p id="quiz-score" class="mt-8 text-sm opacity-70"></p>
+    <button id="quiz-reset" type="button" class="mt-4 border border-[var(--line)] px-4 py-2 text-sm">Od nowa</button>
+  </section>
+</Shell>
+<script>
+  const root = document.getElementById("quiz");
+  const score = document.getElementById("quiz-score");
+  const reset = document.getElementById("quiz-reset");
+  const answers = JSON.parse(root?.getAttribute("data-quiz") || "[]");
+  const picks = Array(answers.length).fill(null);
+
+  function renderScore() {
+    const done = picks.filter((v) => v !== null).length;
+    const ok = picks.reduce((sum, v, i) => sum + (v === answers[i] ? 1 : 0), 0);
+    if (score) {
+      score.textContent = done === 0
+        ? "Wybierz odpowiedzi poniżej."
+        : "Trafione: " + ok + " / " + done + (done === answers.length ? " (koniec rundy)" : "");
+    }
+  }
+
+  root?.querySelectorAll("fieldset").forEach((field) => {
+    const qi = Number(field.getAttribute("data-qi"));
+    const note = field.querySelector("[data-note]");
+    field.querySelectorAll(".quiz-option").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const oi = Number(btn.getAttribute("data-oi"));
+        picks[qi] = oi;
+        field.querySelectorAll(".quiz-option").forEach((node) => node.setAttribute("aria-pressed", "false"));
+        btn.setAttribute("aria-pressed", "true");
+        note?.classList.remove("hidden");
+        renderScore();
+      });
+    });
+  });
+
+  reset?.addEventListener("click", () => {
+    for (let i = 0; i < picks.length; i++) picks[i] = null;
+    root?.querySelectorAll(".quiz-option").forEach((node) => node.setAttribute("aria-pressed", "false"));
+    root?.querySelectorAll("[data-note]").forEach((node) => node.classList.add("hidden"));
+    renderScore();
+  });
+
+  renderScore();
+</script>

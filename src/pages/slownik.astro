@@ -1,0 +1,57 @@
+---
+import Shell from "../layouts/Shell.astro";
+
+const terms = [
+  { term: "Boom bap", def: "Styl bitu z mocnym kickiem i snarem, często na samplach z soulu, jazzu albo funku. Charakterystyczny dla rapu lat 90." },
+  { term: "Sample", def: "Fragment innego nagrania wpleciony w nowy utwór. W latach 90. często z płyt winylowych, dziś też z bibliotek i digitalizacji." },
+  { term: "Loop", def: "Powtarzający się odcinek bitu. To na nim zwykle buduje się zwrotkę." },
+  { term: "Break / breakbeat", def: "Perkusyjny fragment utworu, z którego producenci wycinają rytm pod rap." },
+  { term: "Cypher", def: "Krąg MC-ów, którzy kolejno freestylują albo rzucają zwrotki. Forma spotkania, nie tylko nagrania." },
+  { term: "Freestyle", def: "Rymy na bieżąco albo tekst napisany luźniej niż studyjna zwrotka. Nie każde „freestyle” na płycie powstało w jednej chwili." },
+  { term: "East Coast / West Coast", def: "Umowne bieguny amerykańskiego rapu lat 90. Więcej o brzmieniu i lokalnym kontekście niż o wojnie hasłami." },
+  { term: "Mixtape", def: "Składanka poza głównym albumem. Kiedyś kaseta, dziś też plik. Logika „szybciej i luźniej” została." },
+  { term: "Throw-up", def: "Szybkie graffiti z konturem i wypełnieniem. Mniej złożone niż pełny piece, bardziej widoczne niż tag." },
+  { term: "Piece", def: "Rozbudowane graffiti z literami, kolorami i kompozycją. Wymaga czasu i miejsca." },
+  { term: "Tag", def: "Podpis / znak pisany szybko. Podstawa alfabetu ulicy, zanim powstanie większa robota." },
+  { term: "Crisp snare", def: "Wyrazisty werbel w bicie. W wielu produkcjach lat 90. to on „klika” zanim wejdzie głos." },
+];
+---
+<Shell
+  title="Słownik bitu | RESPECT"
+  description="Słownik hip-hopu lat 90: boom bap, sample, cypher, throw-up. Krótkie definicje z redakcji RESPECT."
+>
+  <section class="mx-auto max-w-3xl px-5 py-14">
+    <p class="text-xs uppercase tracking-[0.22em] opacity-60">Narzędzie</p>
+    <h1 class="mt-2 font-display text-5xl text-[var(--gold)]">Słownik bitu</h1>
+    <p class="mt-4 max-w-xl text-lg leading-relaxed opacity-80">
+      Dwanaście haseł, które wracają w ścieżkach RESPECT. Bez akademickiego tonu, z naciskiem na to, co słychać i widać.
+    </p>
+    <label class="mt-8 block text-sm opacity-70" for="q-slownik">Filtruj hasła</label>
+    <input id="q-slownik" class="mt-2 w-full border border-[var(--line)] bg-black px-4 py-3 text-[var(--ink)]" type="search" placeholder="np. sample, snare, piece" autocomplete="off" />
+    <dl id="list-slownik" class="mt-8 divide-y divide-[var(--line-soft)]">
+      {terms.map((item) => (
+        <div class="term py-5" data-term={(item.term + " " + item.def).toLowerCase()}>
+          <dt class="font-display text-2xl text-[var(--gold)]">{item.term}</dt>
+          <dd class="mt-2 text-sm leading-relaxed opacity-80">{item.def}</dd>
+        </div>
+      ))}
+    </dl>
+    <p id="empty-slownik" class="mt-6 hidden text-sm opacity-60">Brak haseł dla tego filtra.</p>
+  </section>
+</Shell>
+<script>
+  const input = document.getElementById("q-slownik");
+  const empty = document.getElementById("empty-slownik");
+  const terms = [...document.querySelectorAll(".term")];
+  function draw() {
+    const q = (input instanceof HTMLInputElement ? input.value : "").trim().toLowerCase();
+    let shown = 0;
+    for (const node of terms) {
+      const hit = !q || (node.getAttribute("data-term") || "").includes(q);
+      node.classList.toggle("hidden", !hit);
+      if (hit) shown += 1;
+    }
+    empty?.classList.toggle("hidden", shown > 0);
+  }
+  input?.addEventListener("input", draw);
+</script>
